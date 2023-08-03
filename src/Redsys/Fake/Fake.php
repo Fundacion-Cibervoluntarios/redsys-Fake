@@ -201,22 +201,26 @@ class Fake
             $prefix = 'Ds_';
         }
 
-        if (empty($values[$prefix.'Amount'])) {
+        // Redsys soporta peticiones case-insensive al procesar los valores.
+        $valuesCheck = new CaseInsensitiveArray($values);
+
+        if (empty($valuesCheck[$prefix.'Amount'])) {
             $this->setErrorCode('SIS0018');
-        } elseif (empty($values[$prefix.'Order'])) {
+        } elseif (empty($valuesCheck[$prefix.'Order'])) {
             $this->setErrorCode('SIS0074');
-        } elseif (empty($values[$prefix.'MerchantCode'])) {
+        } elseif (empty($valuesCheck[$prefix.'MerchantCode'])) {
             $this->setErrorCode('SIS0008');
-        } elseif (empty($values[$prefix.'Currency'])) {
+        } elseif (empty($valuesCheck[$prefix.'Currency'])) {
             $this->setErrorCode('SIS0015');
-        } elseif (!in_array($values[$prefix.'TransactionType'], array('0', '1', '2', '3', '7', '8', '9'))) {
+        } elseif (!in_array($valuesCheck[$prefix.'TransactionType'], array('0', '1', '2', '3', '7', '8', '9'))) {
             $this->setErrorCode('SIS0023');
         }
+
 
         $array_json = json_encode($values);
         $array_base = base64_encode($array_json);
 
-        $order = $values[$prefix.'Order'];
+        $order = $valuesCheck[$prefix.'Order'];
 
         $key = $this->encrypt3DESOpenSSL($order, base64_decode($this->options['Key']));
 
@@ -240,6 +244,7 @@ class Fake
 
         $values_json = base64_decode($data['Ds_MerchantParameters']);
         $values = json_decode($values_json, true);
+
         $signature = $this->getSignature('check', $values);
 
         return ($signature === $data[$field]);
