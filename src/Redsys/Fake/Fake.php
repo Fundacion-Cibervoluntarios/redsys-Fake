@@ -240,7 +240,6 @@ class Fake
 
         $values_json = base64_decode($data['Ds_MerchantParameters']);
         $values = json_decode($values_json, true);
-        $values = new CaseInsensitiveArray($values);
         $signature = $this->getSignature('check', $values);
 
         return ($signature === $data[$field]);
