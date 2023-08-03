@@ -2,40 +2,85 @@
 
 namespace Redsys\Fake;
 
-use ArrayAccess;
-
-class CaseInsensitiveArray implements ArrayAccess
+class CaseInsensitiveArray implements \ArrayAccess, \Countable, \IteratorAggregate
 {
-    private $_container;
+    private $container = [];
 
-    public function __construct( Array $initial_array = [] ) {
-        $this->_container = array_map( "strtolower", $initial_array );
+    public function __construct($initial_array = [])
+    {
+        $this->container = \array_change_key_case($initial_array, \CASE_LOWER);
     }
 
-    public function offsetSet($offset, $value): void {
-        if( is_string( $offset ) ) $offset = strtolower($offset);
-        if (is_null($offset)) {
+    /**
+     * @return int
+     */
+    #[\ReturnTypeWillChange]
+    public function count()
+    {
+        return \count($this->container);
+    }
+
+    /**
+     * @return \ArrayIterator
+     */
+    #[\ReturnTypeWillChange]
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->container);
+    }
+
+    /**
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value)
+    {
+        $offset = self::maybeLowercase($offset);
+        if (null === $offset) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
         }
     }
 
-    public function offsetExists($offset): bool
+    /**
+     * @return bool
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset)
     {
-        if( is_string( $offset ) ) $offset = strtolower($offset);
-        return isset($this->_container[$offset]);
+        $offset = self::maybeLowercase($offset);
+
+        return isset($this->container[$offset]);
     }
 
-    public function offsetUnset($offset): void
+    /**
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($offset)
     {
-        if( is_string( $offset ) ) $offset = strtolower($offset);
+        $offset = self::maybeLowercase($offset);
         unset($this->container[$offset]);
     }
 
-    public function offsetGet($offset): mixed
+    /**
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
-        if( is_string( $offset ) ) $offset = strtolower($offset);
-        return $this->container[$offset] ?? null;
+        $offset = self::maybeLowercase($offset);
+
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+    }
+
+    private static function maybeLowercase($v)
+    {
+        if (\is_string($v)) {
+            return \strtolower($v);
+        }
+
+        return $v;
     }
 }
