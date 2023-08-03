@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54ec8f87886d05cb4f567ff53d2cf8df",
+    "content-hash": "d6605c7496a9ae604d4b5987e6d95a19",
     "packages": [
         {
             "name": "redsys/messages",
-            "version": "v1.0.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eusonlito/redsys-Messages.git",
-                "reference": "3d8a3cffb081c48137ef8c1301c02e5b9534a0fa"
+                "reference": "ee1707651e7dd6f1517c5af377ac5613d3ef6490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eusonlito/redsys-Messages/zipball/3d8a3cffb081c48137ef8c1301c02e5b9534a0fa",
-                "reference": "3d8a3cffb081c48137ef8c1301c02e5b9534a0fa",
+                "url": "https://api.github.com/repos/eusonlito/redsys-Messages/zipball/ee1707651e7dd6f1517c5af377ac5613d3ef6490",
+                "reference": "ee1707651e7dd6f1517c5af377ac5613d3ef6490",
                 "shasum": ""
             },
             "require": {
@@ -47,7 +47,11 @@
                 "servired",
                 "tpv"
             ],
-            "time": "2016-10-04T08:16:20+00:00"
+            "support": {
+                "issues": "https://github.com/eusonlito/redsys-Messages/issues",
+                "source": "https://github.com/eusonlito/redsys-Messages/tree/v1.1.2"
+            },
+            "time": "2021-12-30T22:41:40+00:00"
         }
     ],
     "packages-dev": [],
@@ -57,7 +61,13 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-libxml": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }

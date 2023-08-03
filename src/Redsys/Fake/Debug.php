@@ -24,6 +24,7 @@ class Debug
 
     public static function dd($info, $title = '')
     {
-        die(self::d($info, $title, 2));
+        self::d($info, $title, 2);
+        exit;
     }
 }

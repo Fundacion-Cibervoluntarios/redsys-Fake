@@ -11,7 +11,12 @@
     ],
     "require": {
         "php": ">=5.3",
-	"redsys/messages": "1.*"
+        "redsys/messages": "1.*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-libxml": "*"
     },
     "autoload": {
         "psr-4": {

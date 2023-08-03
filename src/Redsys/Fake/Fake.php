@@ -111,7 +111,8 @@ class Fake
     private function realizarPago()
     {
         if (isset($_POST['action'])) {
-            return $this->realizarPagoResponse();
+            $this->realizarPagoResponse();
+            return;
         }
 
         if ($this->checkSignature($_POST) === true) {
@@ -131,7 +132,8 @@ class Fake
         $Merchant_Url = $values['Ds_Merchant_Url'.($success ? 'OK' : 'KO')];
 
         if (empty($values['Ds_Merchant_MerchantURL'])) {
-            die(header('Location: '.$Merchant_Url));
+            header('Location: '.$Merchant_Url);
+            exit;
         }
 
         $Curl = new Curl(array(
@@ -182,8 +184,8 @@ class Fake
         $Curl->post('', array(), $to_post);
 
         sleep(1);
-
-        die(header('Location: '.$Merchant_Url));
+        header('Location: '.$Merchant_Url);
+        exit;
     }
 
     private function getSignature($type, $values)
@@ -231,7 +233,8 @@ class Fake
         $field = 'Ds_Signature';
 
         if (empty($data[$field])) {
-            return $this->setErrorCode('SIS0020');
+            $this->setErrorCode('SIS0020');
+            return false;
         }
 
         $values_json = base64_decode($data['Ds_MerchantParameters']);
