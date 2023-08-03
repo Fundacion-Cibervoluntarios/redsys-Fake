@@ -1,0 +1,30 @@
+name: Docker Image
+
+on:
+  push:
+    branches: [ "master" ]
+env:
+  CI_REGISTRY_IMAGE: ghcr.io/fundacion-cibervoluntarios/redsys-fake
+  APP_CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/app:latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: 'production'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pull Docker Actual Image
+        run: |
+          docker pull ${{ env.APP_CONTAINER_RELEASE_IMAGE }} || true
+      - name: Build Docker Image
+        run: |
+          docker build . --cache-from ${{ env.APP_CONTAINER_RELEASE_IMAGE }} --tag ${{ env.APP_CONTAINER_RELEASE_IMAGE }}
+      - name: Push Docker Image
+        run: |
+          docker push ${{ env.APP_CONTAINER_RELEASE_IMAGE }}
