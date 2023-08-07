@@ -170,7 +170,7 @@ class Fake
             $post['Ds_ErrorCode'] = $_POST['Ds_ErrorCode'];
         }
 
-        if (array_key_exists('Ds_Merchant_Identifier', $values) && $values['Ds_Merchant_Identifier'] == 'REQUIRED') {
+        if (isset($values['Ds_Merchant_Identifier']) && $values['Ds_Merchant_Identifier'] == 'REQUIRED') {
             $post['Ds_Merchant_Identifier'] = $this->generateRandomIdentifier();
             $post['Ds_Card_Number'] = mt_rand(1000, 9999).'********'.mt_rand(1000, 9999);
             $post['Ds_Card_Brand'] = mt_rand(1, 3);
