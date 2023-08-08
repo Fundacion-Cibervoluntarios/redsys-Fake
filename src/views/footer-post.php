@@ -14,6 +14,7 @@
                 <div class="form-group">
                     <select name="Ds_Response" class="form-control" required>
                         <option value="">Value to Ds_Response code</option>
+                        <option value="0000">OK</option>
 
                         <?php foreach ($Fake->getMessages('^0') as $error) { ?>
                         <option value="<?= $error['code']; ?>"><?= '['.$error['code'].'] '.$error['message']; ?></option>
